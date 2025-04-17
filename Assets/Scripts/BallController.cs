@@ -1,0 +1,56 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BallController : MonoBehaviour
+{
+    public float initialSpeed = 5f;
+    private Rigidbody2D rb;
+    // Start is called before the first frame update
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        LaunchBall();
+    }
+
+    void LaunchBall()
+    {
+        float x = Random.Range(0, 2) == 0 ? -1 : 1;
+        float y = Random.Range(-1f, 1f);
+        Vector2 direction = new Vector2(x, y).normalized;
+        rb.velocity = direction * initialSpeed;
+    }
+
+    public void ResetBall(bool isPlayerGoal)
+    {
+        // Reset position to center
+        transform.position = Vector3.zero;
+
+        // Stop movement briefly (optional)
+        rb.velocity = Vector2.zero;
+
+        // Restart after short delay
+        Invoke(nameof(LaunchBall), 1f); // 1 second pause
+
+        // (Optional) You can print or update score here
+        Debug.Log(isPlayerGoal ? "Computer scores!" : "Player scores!");
+    }
+
+
+    void FixedUpdate()
+    {
+        rb.velocity *= 1.001f;
+        // Prevent nearly-horizontal movement
+        if (Mathf.Abs(rb.velocity.y) < 0.1f)
+        {
+            float newY = Random.Range(0.3f, 0.6f) * (Random.value < 0.5f ? -1 : 1);
+            rb.velocity = new Vector2(rb.velocity.x, newY).normalized * rb.velocity.magnitude;
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}
