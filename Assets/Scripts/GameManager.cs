@@ -6,10 +6,12 @@ public class GameManager : MonoBehaviour
 
     public int computerScore = 3;
     public UIManager uiManager;
+    public bool gameIsOver;
 
     // Start is called before the first frame update
     private void Start()
     {
+        uiManager = GetComponent<UIManager>();
     }
 
     // Update is called once per frame
@@ -22,7 +24,11 @@ public class GameManager : MonoBehaviour
         computerScore--;
         uiManager.UpdateScores(playerScore, computerScore);
 
-        if (computerScore <= 0) uiManager.ShowWinMessage("Computer");
+        if (computerScore <= 0)
+        {
+            uiManager.ShowWinMessage("Player");
+            gameIsOver = true;
+        }
     }
 
     public void ComputerScored()
@@ -30,6 +36,10 @@ public class GameManager : MonoBehaviour
         playerScore--;
         uiManager.UpdateScores(playerScore, computerScore);
 
-        if (computerScore <= 0) uiManager.ShowWinMessage("Player");
+        if (playerScore <= 0)
+        {
+            uiManager.ShowWinMessage("Computer");
+            gameIsOver = true;
+        }
     }
 }

@@ -18,10 +18,10 @@ public class GoalZone : MonoBehaviour
     {
         if (other.CompareTag("Ball"))
         {
-            FindObjectOfType<BallController>().ResetBall(isPlayerGoal);
             var gameController = FindObjectOfType<GameManager>();
             if (isPlayerGoal) gameController.ComputerScored();
             else gameController.PlayerScored();
+            FindObjectOfType<BallController>().ResetBall(isPlayerGoal);
         }
     }
 }
