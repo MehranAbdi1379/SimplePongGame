@@ -22,11 +22,11 @@ public class BallController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity *= 1.001f;
+        if (rb.velocity.magnitude < 20f) rb.velocity *= 1.001f;
         // Prevent nearly-horizontal movement
-        if (Mathf.Abs(rb.velocity.y) < 0.1f)
+        if (Mathf.Abs(rb.velocity.y) < 0.5f)
         {
-            var newY = Random.Range(0.3f, 0.6f) * (Random.value < 0.5f ? -1 : 1);
+            var newY = Random.Range(0.5f, 0.8f) * (Random.value < 0.5f ? -1 : 1);
             rb.velocity = new Vector2(rb.velocity.x, newY).normalized * rb.velocity.magnitude;
         }
     }
@@ -34,7 +34,10 @@ public class BallController : MonoBehaviour
     private void LaunchBall()
     {
         float x = Random.Range(0, 2) == 0 ? -1 : 1;
-        var y = Random.Range(-1f, 1f);
+        var rand = Random.Range(0, 2) == 0 ? -1 : 1;
+        float y = 0;
+        if (rand == 1) y = Random.Range(-1f, -0.5f);
+        else y = Random.Range(0.5f, 1f);
         var direction = new Vector2(x, y).normalized;
         rb.velocity = direction * initialSpeed;
     }

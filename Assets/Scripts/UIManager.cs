@@ -29,11 +29,12 @@ public class UIManager : MonoBehaviour
     {
         winMessageText.gameObject.SetActive(true);
         winMessageText.text = winner + " wins!";
-        Invoke(nameof(ReloadScene), 2f);
+        Invoke(nameof(RestartGame), 2f);
     }
 
-    private void ReloadScene()
+    private void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Destroy(MainMenuManager.Instance.gameObject);
+        SceneManager.LoadScene("MainMenu");
     }
 }
