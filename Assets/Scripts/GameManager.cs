@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
     public int playerScore = 3;
 
     public int computerScore = 3;
-    public UIManager uiManager;
+    [SerializeField] public UIManager uiManager;
     public bool gameIsOver;
 
     // Start is called before the first frame update
