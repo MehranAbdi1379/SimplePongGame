@@ -1,3 +1,4 @@
+using Power_Ups;
 using UnityEngine;
 
 public class AIPaddleController : MonoBehaviour
@@ -7,6 +8,7 @@ public class AIPaddleController : MonoBehaviour
     public float followRange = 0.25f;
 
     public Rigidbody2D rb;
+    [SerializeField] private SlowOpponent slowOpponent;
 
     private float _speed = 5f;
 
@@ -21,7 +23,7 @@ public class AIPaddleController : MonoBehaviour
         {
             MainMenuManager.Difficulty.Easy => 3f,
             MainMenuManager.Difficulty.Normal => 6f,
-            MainMenuManager.Difficulty.Hard => 10f,
+            MainMenuManager.Difficulty.Hard => 9f,
             _ => _speed
         };
     }
@@ -37,6 +39,8 @@ public class AIPaddleController : MonoBehaviour
             else if (ball.position.y < transform.position.y - followRange) direction = -1f;
 
             rb.velocity = new Vector2(0, direction * _speed);
+
+            if (slowOpponent.PowerUpActive) rb.velocity /= slowOpponent.SlowOpponentAmount;
 
             var clampedY = Mathf.Clamp(transform.position.y, -2.8f, 2.8f);
             transform.position = new Vector2(transform.position.x, clampedY);

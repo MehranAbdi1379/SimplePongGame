@@ -2,8 +2,15 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
+    public enum BallState
+    {
+        Normal,
+        PowerUp
+    }
+
     public float initialSpeed = 5f;
-    public GameManager gameManager;
+    [SerializeField] public GameManager gameManager;
+    public BallState currentBallState = BallState.Normal;
 
     private Rigidbody2D rb;
 
@@ -22,7 +29,7 @@ public class BallController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (rb.velocity.magnitude < 20f) rb.velocity *= 1.001f;
+        if (rb.velocity.magnitude < 20f && currentBallState == BallState.Normal) rb.velocity *= 1.001f;
         // Prevent nearly-horizontal movement
         if (Mathf.Abs(rb.velocity.y) < 0.5f)
         {
@@ -49,6 +56,8 @@ public class BallController : MonoBehaviour
 
         // Stop movement briefly (optional)
         rb.velocity = Vector2.zero;
+
+        currentBallState = BallState.Normal;
 
         if (gameManager.gameIsOver == false) Invoke(nameof(LaunchBall), 1f); // 1 second pause
     }
