@@ -28,7 +28,9 @@ namespace Power_Ups
         protected override void ReversePowerUpEffect()
         {
             var ballController = ball.GetComponent<BallController>();
-            ballController.currentBallState = BallController.BallState.Normal;
+            if (ballController.currentBallState == BallController.BallState.PowerUp)
+                ballController.currentBallState = BallController.BallState.Normal;
+
             PowerUpActive = false;
             ResetPowerUpCreateCoolDownCounter();
         }
