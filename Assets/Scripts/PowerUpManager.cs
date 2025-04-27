@@ -1,12 +1,9 @@
+using Power_Ups;
 using UnityEngine;
 
 public class PowerUpManager : MonoBehaviour
 {
     public float powerUpCreateCoolDownCounter = 5f;
-    [SerializeField] private GameObject speedBoostObject;
-    [SerializeField] private GameObject slowOpponentObject;
-    [SerializeField] private GameObject extraLifeObject;
-    [SerializeField] private GameObject shrinkOpponentObject;
     public bool powerUpCreated;
     public float PowerUpCreateCoolDownTime { get; private set; }
 
@@ -25,27 +22,65 @@ public class PowerUpManager : MonoBehaviour
         {
             var random = Random.Range(0, 4);
 
-            GameObject currentPowerUp;
+            var currentPowerUp = new GameObject("PowerUp");
 
             switch (random)
             {
                 case 0:
-                    currentPowerUp = speedBoostObject;
+                    var sr = currentPowerUp.AddComponent<SpriteRenderer>();
+
+                    sr.sprite = Resources.Load<Sprite>("BasicShapes/Square");
+                    sr.color = Color.yellow;
+
+                    var collider = currentPowerUp.AddComponent<BoxCollider2D>();
+                    collider.isTrigger = true;
+
+                    currentPowerUp.AddComponent<SpeedBoost>();
                     break;
                 case 1:
-                    currentPowerUp = slowOpponentObject;
+                    sr = currentPowerUp.AddComponent<SpriteRenderer>();
+
+                    sr.sprite = Resources.Load<Sprite>("BasicShapes/Circle");
+                    sr.color = Color.blue;
+
+
+                    var circleCollider = currentPowerUp.AddComponent<CircleCollider2D>();
+                    circleCollider.isTrigger = true;
+
+                    currentPowerUp.AddComponent<SlowOpponent>();
                     break;
                 case 2:
-                    currentPowerUp = extraLifeObject;
+                    sr = currentPowerUp.AddComponent<SpriteRenderer>();
+
+                    sr.sprite = Resources.Load<Sprite>("BasicShapes/Capsule");
+                    sr.color = Color.red;
+
+                    collider = currentPowerUp.AddComponent<BoxCollider2D>();
+                    collider.isTrigger = true;
+
+                    currentPowerUp.AddComponent<ShrinkOpponent>();
                     break;
                 case 3:
-                    currentPowerUp = shrinkOpponentObject;
-                    break;
-                default:
-                    currentPowerUp = speedBoostObject;
+                    sr = currentPowerUp.AddComponent<SpriteRenderer>();
+
+                    sr.sprite = Resources.Load<Sprite>("BasicShapes/Triangle");
+                    sr.color = Color.magenta;
+
+                    collider = currentPowerUp.AddComponent<BoxCollider2D>();
+                    collider.isTrigger = true;
+
+                    currentPowerUp.AddComponent<ExtraLife>();
                     break;
             }
 
+            // var rb = currentPowerUp.AddComponent<Rigidbody2D>();
+            // rb.gravityScale = 0f;
+            // rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            // rb.velocity = new Vector2(Random.Range(-2f, 2f), Random.Range(-2f, 2f));
+
+            // currentPowerUp.GetComponent<Collider2D>().sharedMaterial =
+            //     Resources.Load<PhysicsMaterial2D>("Materials/BouncyMaterial");
+            currentPowerUp.transform.localScale = new Vector3(0.5f, 0.5f, 0f);
             currentPowerUp.SetActive(true);
             var randX = Random.Range(-5f, 5f);
             var randY = Random.Range(-3.0f, 3.0f);
