@@ -33,6 +33,10 @@ namespace Power_Ups
             opponent.transform.localScale = new Vector3(opponent.transform.localScale.x,
                 opponent.transform.localScale.y * shrinkOpponentAmount, opponent.transform.localScale.z);
 
+            var ballController = ball.GetComponent<BallController>();
+            if (ballController.currentBallState == BallController.BallState.PowerUp)
+                ballController.currentBallState = BallController.BallState.Normal;
+
             PowerUpActive = false;
             ResetPowerUpCreateCoolDownCounter();
         }

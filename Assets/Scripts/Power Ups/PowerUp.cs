@@ -4,8 +4,8 @@ namespace Power_Ups
 {
     public abstract class PowerUp : MonoBehaviour
     {
-        [SerializeField] protected GameObject ball;
-        [SerializeField] protected PowerUpManager powerUpManager;
+        protected GameObject ball;
+        protected PowerUpManager powerUpManager;
 
         public bool PowerUpActive { get; protected set; }
 
@@ -15,6 +15,7 @@ namespace Power_Ups
         protected void Start()
         {
             powerUpManager = FindObjectOfType<PowerUpManager>();
+            ball = FindObjectOfType<BallController>().gameObject;
         }
 
         protected void Update()
